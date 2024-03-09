@@ -1,1 +1,139 @@
+git pull origin master # Este es el comando utilizado para comprobar con diff
+
+# Comandos utilizados
+
+# Crear el directorio raíz del repositorio y navegar a él
+mkdir AntonRiveiro_Git_Individual
+cd AntonRiveiro_Git_Individual
+
+# Inicializar un nuevo repositorio de Git en el directorio actual
+git init
+
+# Crear estructura de directorios para organizar el proyecto
+mkdir Proyectos Procesos
+mkdir Proyectos/Prj1
+mkdir Procesos/ControlDeCambios
+
+# Crear un archivo para registrar los comandos utilizados durante la práctica
+touch historia.txt
+
+# Añadir todos los archivos y directorios al área de preparación de Git
+git add .
+
+# Realizar el primer commit con un mensaje descriptivo
+git commit -m "Creación de la estructura del repositorio y el txt para los comandos"
+
+# Copiar documentos específicos al directorio del repositorio
+cp /c/Users/manue/Downloads/DocsGit/DP_ControldeCambios_Grupo7-v1.docx Procesos/ControlDeCambios/DP_ControldeCambios_Grupo7.docx
+
+# Crear un directorio para plantillas dentro de ControlDeCambios
+mkdir Procesos/ControlDeCambios/Plantillas
+
+# Copiar plantillas específicas al directorio de Plantillas
+cp /c/Users/manue/Downloads/DocsGit/PlantillaA_Propuesta_Cambio.docx Procesos/ControlDeCambios/Plantillas/PlantillaA.docx
+cp /c/Users/manue/Downloads/DocsGit/PlantillaB_Implementacion_Cambio.docx Procesos/ControlDeCambios/Plantillas/PlantillaB.docx
+
+# Añadir los nuevos documentos al área de preparación y realizar un commit
+git add Procesos/ControlDeCambios
+git commit -m "V1 del proceso y plantillas asociadas añadidos"
+
+# Marcar este punto en el historial del proyecto con una etiqueta anotada
+git tag -a R1 -m "Estado inicial del Control de Cambios"
+
+# Crear una nueva rama para trabajar en mejoras
+git branch Mejoras
+
+# Cambiar a la nueva rama para empezar a trabajar en las mejoras
+git checkout Mejoras
+
+# Añadir un documento con propuestas de mejora
+cp /c/Users/manue/Downloads/DocsGit/DP_ControldeCambios_Grupo7-v1_2.pdf Procesos/ControlDeCambios/DP_ControldeCambios_Grupo7-v1_mejoras.pdf
+git add Procesos/ControlDeCambios
+git commit -m "Se introduce una nueva rama junto con un pdf con las aceptaciones/rechazos de las mejoras que se nos propuso"
+
+# Actualizar el documento principal a su versión 2 en la rama de mejoras
+cp /c/Users/manue/Downloads/DocsGit/DP_ControldeCambios_Grupo7-v2.docx Procesos/ControlDeCambios/DP_ControldeCambios_Grupo7.docx
+git add Procesos/ControlDeCambios
+git commit -m "Actualización del word a la V2 en la nueva rama"
+
+# Volver a la rama principal y fusionar los cambios de la rama Mejoras
+git checkout master
+git merge Mejoras -m "Se fusionan las dos ramas"
+
+# Se me olvido añadir las plantillas nuevas (la letra E nos la saltaramos al enumerarlas, por eso no aparece), asi que me vulevo a cambiar a la rama de Mejoras, añadir las plantillas y volver a fusionar para seguir con la coherencia de la practica
+git checkout Mejoras
+
+cp /c/Users/manue/Downloads/DocsGit/PlantillaC_Identificacion_Problema.docx Procesos/ControlDeCambios/Plantillas/PlantillaC.docx
+cp /c/Users/manue/Downloads/DocsGit/PlantillaD_Aprobacion_Cambio.docx Procesos/ControlDeCambios/Plantillas/PlantillaD.docx
+cp /c/Users/manue/Downloads/DocsGit/PlantillaF_Seguimiento_Revision.docx Procesos/ControlDeCambios/Plantillas/PlantillaF.docx
+cp /c/Users/manue/Downloads/DocsGit/PlantillaG_Planificacion_Cambio.docx Procesos/ControlDeCambios/Plantillas/PlantillaG.docx
+
+git add Procesos/ControlDeCambios
+git commit -m "Actualizacion plantillas en la nueva rama"
+
+# Fusionar nuevamente los cambios de la rama Mejoras en la rama principal
+git checkout master
+git merge Mejoras -m "Se fusionan las dos ramas"
+
+# Eliminar la rama Mejoras después de completar la fusión
+git branch -d Mejoras
+
+# Eliminar el archivo PDF con las propuestas de mejora, ya que ya no es necesario
+git rm Procesos/ControlDeCambios/DP_ControldeCambios_Grupo7-v1_mejoras.pdf
+git commit -m "Documento con las propuestas de mejora eliminado"
+
+# Marcar la nueva versión con una etiqueta anotada después de realizar cambios significativos
+git tag -a R2 -m "Nueva versión del Proceso de Control de Cambios"
+
+# Continuar con la actualización del documento a su versión 3 y manejar los commits
+# Se procede a actualizar el word a su version 3
+
+cp /c/Users/manue/Downloads/DocsGit/DP_ControldeCambios_Grupo7-v3.docx Procesos/ControlDeCambios/DP_ControldeCambios_Grupo7.docx
+
+# Agrega los cambios y comit
+git add Procesos/ControlDeCambios
+git commit -m "Actualizacion del word a su V3"
+
+# Faltaba incluir la nueva plantilla -> se revierte el ultimo commit
+# Como la actualizacion del word si que estaba bien simplemente se revierte 
+# el commit, pero manteniendo los cambios en el área de trabajo con --soft
+
+git reset --soft HEAD~1  # Esto revertirá al estado antes del último commit
+
+# Se mete la nueva plantilla y comit
+cp /c/Users/manue/Downloads/DocsGit/PlantillaH_Votaciones.docx Procesos/ControlDeCambios/Plantillas/PlantillaH.docx
+git add Procesos/ControlDeCambios
+git commit -m "Actualizacion del Control de Cambios y plantillas a la V3"
+
+# Nueva etiqueta
+git tag -a R3 -m "Version R3 subida"
+
+# Conectar el repositorio local con GitHub y hacer push de la rama principal y etiquetas
+# Agrega el repositorio remoto de GitHub
+
+git remote add origin https://github.com/eltony33/AntonRiveiro_Git_Individual
+
+# Se hace el push de todos los comits y etiquetas realizados hasta ahora con push
+git push origin master --tags
+
+# Asegurarse de que la rama principal está actualizada con los últimos cambios en GitHub
+# Se descargan al repositorio local todos los cambios con pull
+git checkout master
 git pull origin master
+
+# Agregar a historia.txt los comandos utilizados para la práctica y actualizar el repositorio remoto
+# Agrega el comando pull a tu historia.txt
+nano historia.txt
+
+# Verifica diferencias en historia.txt (+git pull origin master)
+git diff historia.txt
+
+# Actualiza el repositorio remoto con todos los cambios
+git add historia.txt
+
+git commit -m "actualizacion del historia.txt"
+
+git push origin master
+
+# SE METEN TODOS LOS COMANDOS UTILIZADOS EN historia.txt y se realiza un nuevo commit y push
+
